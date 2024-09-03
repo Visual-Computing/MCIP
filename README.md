@@ -7,7 +7,7 @@
 [Visual Computing Group HTW Berlin](https://visual-computing.com/)
 
 
-<img src="images/MCIP_teaser.jpg" width="100%" title="" alt="main_pic"></img>
+<img src="images/MCIP_teaser.JPG" width="100%" title="" alt="main_pic"></img>
 
 
 
