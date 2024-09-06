@@ -27,18 +27,18 @@ The second methods, Multi-Caption-Image-Pairing (MCIP) leads to the best results
 
 | open_clip Name    | open_clip pretrained | Optimized Checkpoint |
 |-------------------|----------------------|----------------------|
-| ViT-SO400M-14-SigLIP-384 |webli          | comming soon...      |
+| ViT-SO400M-14-SigLIP-384 |webli          | [checkpoint] (https://visual-computing.com/files/MCIP/MCIP-ViT-SO400M-14-SigLIP-384.pt)       |
 
 # Using our models
 
-All models are [open_clip](https://github.com/mlfoundations/open_clip) CLIP-model instances and inherit all of the original functionalities. To use our optimized models, simply download the above checkpoints, create the respective open_clip model instance and load our weights. Thats it! 
+If you want to try out models, you simply have to install [open_clip](https://github.com/mlfoundations/open_clip), download one of the above checkpoints, create the respective open_clip model instance and load our weights. Thats it! 
 
 ```python
 import open_clip
 
 model, _, transform = open_clip.create_model_and_transforms("ViT-SO400M-14-SigLIP-384", pretrained="webli")
 
-mcip_state_dict = torch.load(checkpoint_path)["state_dict"]
+mcip_state_dict = torch.load(checkpoint_path)
 model.load_state_dict(mcip_state_dict, strict=True)
 ```
 
