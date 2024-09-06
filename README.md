@@ -27,7 +27,7 @@ The second methods, Multi-Caption-Image-Pairing (MCIP) leads to the best results
 
 | open_clip Name    | open_clip pretrained | Optimized Checkpoint |
 |-------------------|----------------------|----------------------|
-| ViT-SO400M-14-SigLIP-384 |webli          | [checkpoint] (https://visual-computing.com/files/MCIP/MCIP-ViT-SO400M-14-SigLIP-384.pt)       |
+| ViT-SO400M-14-SigLIP-384 |webli          | [checkpoint](https://visual-computing.com/files/MCIP/MCIP-ViT-SO400M-14-SigLIP-384.pt)       |
 
 # Using our models
 
