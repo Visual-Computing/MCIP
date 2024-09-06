@@ -27,7 +27,8 @@ The second methods, Multi-Caption-Image-Pairing (MCIP) leads to the best results
 
 | open_clip Name    | open_clip pretrained | Optimized Checkpoint |
 |-------------------|----------------------|----------------------|
-| ViT-SO400M-14-SigLIP-384 |webli          | [checkpoint](https://visual-computing.com/files/MCIP/MCIP-ViT-SO400M-14-SigLIP-384.pt)       |
+| ViT-L-14-336 |       openai | [checkpoint](https://visual-computing.com/files/MCIP/MCIP-ViT-L-14-336.pth)  |
+| ViT-SO400M-14-SigLIP-384 |webli          | [checkpoint](https://visual-computing.com/files/MCIP/MCIP-ViT-SO400M-14-SigLIP-384.pth)       |
 
 # Using our models
 
@@ -38,6 +39,7 @@ import open_clip
 
 model, _, transform = open_clip.create_model_and_transforms("ViT-SO400M-14-SigLIP-384", pretrained="webli")
 
+checkpoint_path = '/path/to/checkpoint.pth'
 mcip_state_dict = torch.load(checkpoint_path)
 model.load_state_dict(mcip_state_dict, strict=True)
 ```
