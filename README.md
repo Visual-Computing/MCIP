@@ -68,7 +68,7 @@ One should contain all paths to images that you want to use.
 The second should contain the unique category identifiers for each of the categories in the training data for each image. These files should have the same order as the first file.
 The identifiers can be integers or strings, but should not overlap between the dataset parts.
 
-Adjust the [config file](MCIP/src/gpr-ft/config/GPR_SigLIP400_ArcFace_AdamW_384.yaml) of your experiment and set the parameters:
+Adjust the [config file](MCIP/src/gpr-ft/config/SigLIP400_MCIP_AdamW_384.yaml) of your experiment and set the parameters:
 
 ```yaml
 data: 
