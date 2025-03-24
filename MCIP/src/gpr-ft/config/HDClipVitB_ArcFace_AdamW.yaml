@@ -1,0 +1,20 @@
+data: 
+  image_paths: /path/to/image_paths_file.npy
+  image_categories: /path/to/image_categories_file.npy
+  eval_base_path: /path/to/evaluation_base_folder/
+model: HDClipVitB
+loss: ArcFace
+train_batch_size: 256
+test_batch_size: 512
+base_lr: 1.0e-06
+warmup_lr: 1.0e-08
+min_lr: 1.0e-07
+optimizer: AdamW
+n_epochs: 3
+weight_decay: 1.0e-2
+warmup_iters: 0.0
+image_size: 224
+grad_norm: 1.0
+n_tests_per_epoch: 100
+abort_after_no_improvements: 50
+gpu_id: 1

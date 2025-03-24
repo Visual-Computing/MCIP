@@ -1,0 +1,58 @@
+# Extract Training data image feautures
+python gpr-ft/main.py --mode extract_image_features --cfg gpr-ft/config/GPR_SigLIP400_TextArcFaceText_AdamW_384.yaml --gpu_id 1
+ 
+
+export CUDA_VISIBLE_DEVICES=0,1
+torchrun --nproc_per_node 2 -m realingment.main \
+    --train-data '/mnt/bigdata/images/CC12M/cc12m/{00000..01242}.tar' \
+    --train-num-samples 10968539 \
+    --dataset-type webdataset \
+    --batch-size 16384 \
+    --precision amp \
+    --workers 16 \
+    --model ViT-SO400M-14-SigLIP-384 \
+    --pretrained webli \
+    --extract-text-features-only 
+
+export CUDA_VISIBLE_DEVICES=0,1
+torchrun --nproc_per_node 2 -m realingment.main \
+    --train-data '/mnt/bigdata/images/CC12M/cc12m/{00000..01242}.tar' \
+    --train-num-samples 10968539 \
+    --dataset-type webdataset \
+    --batch-size 512 \
+    --precision amp \
+    --workers 16 \
+    --model ViT-SO400M-14-SigLIP-384 \
+    --GPR-model-weights '/mnt/data/networks/GPR_FT/model=SigLIP400_text_test2_loss=ArcFace_opt=AdamW_blr=1e-06_data=NoIN1k/GPR1000.pth' \
+    --pretrained webli \
+    --force-image-size 384 \
+    --image-mean 0.5 0.5 0.5 \
+    --image-std 0.5 0.5 0.5 \
+    --extract-features-only 
+
+export CUDA_VISIBLE_DEVICES=0,1
+torchrun --nproc_per_node 2 -m realingment.main \
+    --train-data '/mnt/bigdata/images/CC12M/cc12m/{00000..01242}.tar' \
+    --train-num-samples 10968539 \
+    --dataset-type webdataset \
+    --batch-size 16384 \
+    --precision amp \
+    --workers 16 \
+    --imagenet-val /mnt/data/images/ImageNet1k_2012/val \
+    --model ViT-SO400M-14-SigLIP-384 \
+    --pretrained webli \
+    --grad-checkpointing \
+    --lock-image \
+    --lock-image-unlocked-groups 0  \
+    --lock-image-freeze-bn-stats \
+    --force-image-size 384 \
+    --dataset-resampled \
+    --lr 0.00001 \
+    --lock-text  \
+    --lock-text-unlocked-layers 16   \
+    --delete-previous-checkpoint \
+    --train-with-features-only \
+    --log-every-n-steps 5 \
+    --image-embedding-files /mnt/bigdata/features/12CCM_S400_imagefeatures_0.pth /mnt/bigdata/features/12CCM_S400_imagefeatures_1.pth \
+    --image-key-files /mnt/bigdata/features/12CCM_S400_keys_0.npy /mnt/bigdata/features/12CCM_S400_keys_1.npy \
+    --image-embedding-dim 1152

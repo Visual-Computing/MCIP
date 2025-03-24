@@ -1,0 +1,26 @@
+data: 
+  image_paths: /mnt/data/features/GPR_NoIN1kl_paths.npy
+  image_categories: /mnt/data/features/GPR_NoIN1kl_cats.npy
+  eval_base_path: /mnt/data/images/GPR10x1200/images/
+  train_image_embeddings_file_path: "/mnt/data/features/GPR_Train_OClipL_imagefeatures.npy"
+  caption_value_files: "/mnt/data/features/12CCM_OClipL_text_0.npy;/mnt/data/features/12CCM_OClipL_text_1.npy"
+  caption_embeddings_files: "/mnt/data/features/12CCM_OClipL_textfeatures_0.pth;/mnt/data/features/12CCM_OClipL_textfeatures_1.pth"
+  caption_output_dir: ../../captions
+model: SigLIP400
+loss: ArcFace
+train_batch_size: 128
+test_batch_size: 512
+base_lr: 1.0e-06
+warmup_lr: 1.0e-08
+min_lr: 1.0e-07
+optimizer: AdamW
+n_epochs: 3
+weight_decay: 1.0e-2
+warmup_iters: 0.0
+image_size: 384
+grad_norm: 1.0
+n_tests_per_epoch: 200
+abort_after_no_improvements: 50
+gpu_id: 1
+MCIP:
+  sim_th: 0.27
