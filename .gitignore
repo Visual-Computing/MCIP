@@ -1,0 +1,34 @@
+# Byte-compiled / optimized / DLL files
+**/__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+
+# Virtual environments
+.env/
+.venv/
+venv/
+
+# Install/build artifacts
+build/
+dist/
+*.egg
+*.egg-info/
+.eggs/
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore 'logs' and 'features' directories anywhere
+**/logs/
+**/features/
