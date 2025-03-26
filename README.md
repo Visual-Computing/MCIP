@@ -197,6 +197,7 @@ torchrun --nproc_per_node 2 -m realignment.main \
     --workers 16 \
     --imagenet-val /mnt/data/images/ImageNet1k_2012/val \
     --model ViT-SO400M-14-SigLIP-384 \
+    --GPR-model-weights '../logs/gpr-ft/exp_name/GPR1200.pth' \
     --pretrained webli \
     --grad-checkpointing \
     --lock-image \
