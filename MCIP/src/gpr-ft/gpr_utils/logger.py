@@ -28,8 +28,8 @@ class ExpLogger():
         
         output_dim = ""
         if "OD" in self.param_dict: output_dim = f"OD={self.param_dict.OD}"
-
-        return f"model={self.param_dict.model}_loss={self.param_dict.loss}_opt={self.param_dict.optimizer}_blr={self.param_dict.base_lr}" + output_dim
+        name_suffix = self.param_dict.name_sufix if "name_sufix" in self.param_dict else ""
+        return f"model={self.param_dict.model}{name_suffix}_loss={self.param_dict.loss}_opt={self.param_dict.optimizer}_blr={self.param_dict.base_lr}" + output_dim
     
     def save(self):
         with open(os.path.join(self.dir_name, f"{self.get_name()}.log"), 'wb') as handle:

@@ -32,6 +32,7 @@ def parse_option():
 
     config = get_config(args.cfg)
 
+    config.name_sufix = args.name_sufix
     config.arcface_scale = args.arcface_scale
     config.arcface_margin = args.arcface_margin
 

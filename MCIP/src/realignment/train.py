@@ -1082,7 +1082,7 @@ def extract_features(model, data, args):
 
     os.makedirs(args.store_features_path, exist_ok=True)
     feature_type = "text" if args.extract_text_features_only else "image"
-    np.save(f"{args.store_features_path}_keys_{args.rank}.npy", np.array(all_keys))
+    np.save(f"{args.store_features_path}_{feature_type}_keys_{args.rank}.npy", np.array(all_keys))
     torch.save(torch.stack(all_features), f"{args.store_features_path}_{feature_type}_embeddings_{args.rank}.pth")
 
 
