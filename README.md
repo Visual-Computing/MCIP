@@ -199,7 +199,7 @@ torchrun --nproc_per_node 2 -m realignment.main \
     --train-data '/mnt/bigdata/images/CC12M/cc12m/{00000..01242}.tar' \
     --train-num-samples 10968539 \
     --dataset-type webdataset \
-    --batch-size 16384 \
+    --batch-size 8192 \
     --precision amp \
     --workers 16 \
     --imagenet-val /mnt/data/images/ImageNet1k_2012/val \
@@ -222,6 +222,8 @@ torchrun --nproc_per_node 2 -m realignment.main \
     --image-key-files /mnt/bigdata/features/12CCM_S400_keys_0.npy /mnt/bigdata/features/12CCM_S400_keys_1.npy \
     --image-embedding-dim 1152
 ```
+
+Note: with open_clip 3.x, gradient checkpointing passes gradients to all unlocked text layers (older open_clip versions silently skipped the unlocked transformer block and only updated the final layer norm and projection). This needs more memory: a per-GPU batch size of 16384 no longer fits on an 80 GB GPU for `ViT-SO400M-14-SigLIP-384`, 8192 does.
 
 Your model now has improved image-to-image nearest-neighbor search capabilities and performs equally well or better in textual zero-shot classification and text-to-image retrieval!
 
