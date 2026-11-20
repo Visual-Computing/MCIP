@@ -33,6 +33,7 @@ The second method, Multi-Caption-Image-Pairing (MCIP), leads to the best results
 If you want to try out models, you simply have to install [open_clip](https://github.com/mlfoundations/open_clip), download one of the above checkpoints, create the respective open_clip model instance and load our weights. That's it! 
 
 ```python
+import torch
 import open_clip
 
 model, _, transform = open_clip.create_model_and_transforms("ViT-SO400M-14-SigLIP-384", pretrained="webli")
@@ -47,11 +48,17 @@ model.load_state_dict(mcip_state_dict, strict=True)
 This repository now contains code for each of the fine-tuning methods mentioned in the paper!
 
 ## Installation
-Create a new Python environment and install the required packages:
+Create a new Python environment (Python 3.11 or 3.12) and install the required packages:
 
 ```bash
 pip install -r requirements.txt
 ```
+
+A few code paths need extra packages that are not part of `requirements.txt`; install them only if you use them:
+
+- `lion-pytorch` for the Lion optimizer (`optimizer: Lion`, `--use-lion`)
+- [OpenAI `clip`](https://github.com/openai/CLIP) for the `HDClip*` configs
+- `xformers` is optional for the DINOv2 models (they fall back to plain PyTorch attention without it). If you install it, it has to match your PyTorch build, otherwise its attention operators fail at runtime.
 
 ## Prepare the data
 We used a combination of five publicly available training sets for the general-purpose retrieval and MCIP fine-tuning:
@@ -95,7 +102,7 @@ This step will only train the image-encoder with the pre-processed data. The tex
 Run the following command to start fine-tuning:
 
 ```bash
-python gpr-ft/main.py --mode train --cfg gpr-ft/config/GPR_SigLIP400_ArcFaceText_AdamW_384.yaml --gpu_id 0
+python gpr-ft/main.py --mode train --cfg gpr-ft/config/SigLIP400_MCIP_AdamW_384.yaml --gpu_id 0
 ```
 
 The model weights will be saved in the logs folder under the name corresponding to the config file.
@@ -131,7 +138,7 @@ torchrun --nproc_per_node 2 -m realignment.main \
     --model ViT-SO400M-14-SigLIP-384 \
     --pretrained webli \
     --extract-text-features-only \
-    --store_features_path features/
+    --store-features-path features/
 ```
 
 The text value and embedding files will be saved to the specified folder. 
@@ -151,7 +158,7 @@ MCIP:
 Generate pseudo-captions:
 
 ```bash
-python gpr-ft/main.py --mode create_pseudo_captions --cfg gpr-ft/config/GPR_SigLIP400_TextArcFaceText_AdamW_384.yaml --gpu_id 0
+python gpr-ft/main.py --mode create_pseudo_captions --cfg gpr-ft/config/SigLIP400_MCIP_AdamW_384.yaml --gpu_id 0
 ```
 
 Run the MCIP fine-tuning script:
@@ -192,7 +199,7 @@ torchrun --nproc_per_node 2 -m realignment.main \
     --train-data '/mnt/bigdata/images/CC12M/cc12m/{00000..01242}.tar' \
     --train-num-samples 10968539 \
     --dataset-type webdataset \
-    --batch-size 16384 \
+    --batch-size 8192 \
     --precision amp \
     --workers 16 \
     --imagenet-val /mnt/data/images/ImageNet1k_2012/val \
@@ -215,6 +222,8 @@ torchrun --nproc_per_node 2 -m realignment.main \
     --image-key-files /mnt/bigdata/features/12CCM_S400_keys_0.npy /mnt/bigdata/features/12CCM_S400_keys_1.npy \
     --image-embedding-dim 1152
 ```
+
+Note: with open_clip 3.x, gradient checkpointing passes gradients to all unlocked text layers (older open_clip versions silently skipped the unlocked transformer block and only updated the final layer norm and projection). This needs more memory: a per-GPU batch size of 16384 no longer fits on an 80 GB GPU for `ViT-SO400M-14-SigLIP-384`, 8192 does.
 
 Your model now has improved image-to-image nearest-neighbor search capabilities and performs equally well or better in textual zero-shot classification and text-to-image retrieval!
 
