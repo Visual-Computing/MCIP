@@ -47,7 +47,7 @@ model.load_state_dict(mcip_state_dict, strict=True)
 This repository now contains code for each of the fine-tuning methods mentioned in the paper!
 
 ## Installation
-Create a new Python environment and install the required packages:
+Create a new Python environment (Python 3.11 or 3.12) and install the required packages:
 
 ```bash
 pip install -r requirements.txt
