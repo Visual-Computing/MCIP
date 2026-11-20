@@ -28,13 +28,13 @@ except ImportError:
     hvd = None
 
 from open_clip import create_model_and_transforms, trace_model, get_tokenizer, create_loss, create_model_from_pretrained
-from realingment.data import get_data
-from realingment.distributed import is_master, init_distributed_device, broadcast_object
-from realingment.logger import setup_logging
-from realingment.params import parse_args
-from realingment.scheduler import cosine_lr, const_lr, const_lr_cooldown
-from realingment.train import train_one_epoch, evaluate, extract_features, train_one_epoch_with_features, create_features_dataset, train_one_epoch_with_features_ds, train_one_epoch_with_numpy
-from realingment.file_utils import pt_load, check_exists, start_sync_process, remote_sync
+from realignment.data import get_data
+from realignment.distributed import is_master, init_distributed_device, broadcast_object
+from realignment.logger import setup_logging
+from realignment.params import parse_args
+from realignment.scheduler import cosine_lr, const_lr, const_lr_cooldown
+from realignment.train import train_one_epoch, evaluate, extract_features, train_one_epoch_with_features, create_features_dataset, train_one_epoch_with_features_ds, train_one_epoch_with_numpy
+from realignment.file_utils import pt_load, check_exists, start_sync_process, remote_sync
 
 
 LATEST_CHECKPOINT_NAME = "epoch_latest.pt"

@@ -16,5 +16,4 @@ torch==2.13.0
 tqdm==4.67.1
 wandb==0.19.8
 webdataset==0.2.86
-xformers==0.0.35
 transformers==5.10.0

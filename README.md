@@ -33,6 +33,7 @@ The second method, Multi-Caption-Image-Pairing (MCIP), leads to the best results
 If you want to try out models, you simply have to install [open_clip](https://github.com/mlfoundations/open_clip), download one of the above checkpoints, create the respective open_clip model instance and load our weights. That's it! 
 
 ```python
+import torch
 import open_clip
 
 model, _, transform = open_clip.create_model_and_transforms("ViT-SO400M-14-SigLIP-384", pretrained="webli")
@@ -52,6 +53,12 @@ Create a new Python environment (Python 3.11 or 3.12) and install the required p
 ```bash
 pip install -r requirements.txt
 ```
+
+A few code paths need extra packages that are not part of `requirements.txt`; install them only if you use them:
+
+- `lion-pytorch` for the Lion optimizer (`optimizer: Lion`, `--use-lion`)
+- [OpenAI `clip`](https://github.com/openai/CLIP) for the `HDClip*` configs
+- `xformers` is optional for the DINOv2 models (they fall back to plain PyTorch attention without it). If you install it, it has to match your PyTorch build, otherwise its attention operators fail at runtime.
 
 ## Prepare the data
 We used a combination of five publicly available training sets for the general-purpose retrieval and MCIP fine-tuning:
@@ -95,7 +102,7 @@ This step will only train the image-encoder with the pre-processed data. The tex
 Run the following command to start fine-tuning:
 
 ```bash
-python gpr-ft/main.py --mode train --cfg gpr-ft/config/GPR_SigLIP400_ArcFaceText_AdamW_384.yaml --gpu_id 0
+python gpr-ft/main.py --mode train --cfg gpr-ft/config/SigLIP400_MCIP_AdamW_384.yaml --gpu_id 0
 ```
 
 The model weights will be saved in the logs folder under the name corresponding to the config file.
@@ -131,7 +138,7 @@ torchrun --nproc_per_node 2 -m realignment.main \
     --model ViT-SO400M-14-SigLIP-384 \
     --pretrained webli \
     --extract-text-features-only \
-    --store_features_path features/
+    --store-features-path features/
 ```
 
 The text value and embedding files will be saved to the specified folder. 
@@ -151,7 +158,7 @@ MCIP:
 Generate pseudo-captions:
 
 ```bash
-python gpr-ft/main.py --mode create_pseudo_captions --cfg gpr-ft/config/GPR_SigLIP400_TextArcFaceText_AdamW_384.yaml --gpu_id 0
+python gpr-ft/main.py --mode create_pseudo_captions --cfg gpr-ft/config/SigLIP400_MCIP_AdamW_384.yaml --gpu_id 0
 ```
 
 Run the MCIP fine-tuning script:
